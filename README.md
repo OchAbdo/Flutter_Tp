@@ -1,16 +1,6 @@
-# fluttertp
+# TP N°2 - Flutter : To-Do List
 
-A new Flutter project.
+L’objectif de ce TP est de se familiariser avec les widgets courants de **Flutter** tels que  
+`ListView`, `TextField` et `FloatingActionButton`, ainsi qu’avec la gestion de l’état (*state management*)  
+pour ajouter et supprimer des éléments dans une liste.
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
