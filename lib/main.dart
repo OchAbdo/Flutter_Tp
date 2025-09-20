@@ -7,67 +7,89 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: PageHomeConvertisseur());
+    return MaterialApp(home: PageHomeC());
   }
 }
 
-class PageHomeConvertisseur extends StatefulWidget {
-  PageHomeConvertisseurState createState() => PageHomeConvertisseurState();
+class PageHomeC extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => PageHomeCState();
 }
 
-class PageHomeConvertisseurState extends State<PageHomeConvertisseur> {
-  TextEditingController task = TextEditingController();
-  List<String> listTask = [];
+class PageHomeCState extends State<PageHomeC> {
+  TextEditingController mont = TextEditingController();
+  double resultat = 0;
+  String selectbtnR = "";
 
-  void addtask() {
+  void convertir() {
     setState(() {
-      listTask.add(task.text);
-    });
-  }
-
-  void deletefrom(int x) {
-    setState(() {
-      listTask.removeAt(x);
+      double montant = double.tryParse(mont.text) ?? 0;
+      if (selectbtnR == "etd") {
+        resultat = montant * 3.4; // Exemple de taux de conversion
+      } else {
+        resultat = montant / 3.4; // Exemple de taux de conversion
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("toDo-List"), backgroundColor: Colors.green),
+      appBar: AppBar(
+        title: Text("Tp1_App"),
+        titleTextStyle: TextStyle(color: Colors.white),
+        backgroundColor: Colors.black87,
+      ),
       body: Center(
         child: Column(
-          //mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            SizedBox(height: 100),
             Padding(
-              padding: EdgeInsetsGeometry.all(10),
+              padding: EdgeInsetsGeometry.all(3),
               child: TextField(
-                controller: task,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: "Enter a task",
-                ),
+                controller: mont,
+                decoration: InputDecoration(labelText: "Montant"),
               ),
             ),
-            Expanded(
-              child: ListView.builder(
-                itemCount: listTask.length,
-                itemBuilder: (context, i) {
-                  return ListTile(
-                    title: Text(listTask[i]),
-                    onLongPress: () => deletefrom(i),
-                  );
-                },
+            SizedBox(height: 20),
+            RadioListTile(
+              title: Text("Dinar => Euro"),
+              value: "dte",
+              groupValue: selectbtnR,
+              onChanged: (value) {
+                setState(() {
+                  selectbtnR = value.toString();
+                });
+              },
+            ),
+            RadioListTile(
+              title: Text("Euro => Dinar"),
+              value: "etd",
+              groupValue: selectbtnR,
+              onChanged: (value) {
+                setState(() {
+                  selectbtnR = value.toString();
+                });
+              },
+            ),
+            SizedBox(height: 20),
+            Text(
+              "Le résultat est ${resultat.toStringAsFixed(3)}  dinars !",
+              style: TextStyle(color: Colors.black, fontSize: 18),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: convertir,
+              child: Text("CONVERTIR"),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.black,
+                padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+                textStyle: TextStyle(fontSize: 18, color: Colors.white),
               ),
             ),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: addtask,
-        child: Icon(Icons.add),
-        backgroundColor: Colors.green,
       ),
     );
   }
