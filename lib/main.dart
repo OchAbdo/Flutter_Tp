@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertp/Provider.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(
+    ChangeNotifierProvider(create: (context) => ProviderTest(), child: MyApp()),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -11,13 +15,10 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class PageHomeConvertisseur extends StatefulWidget {
-  PageHomeConvertisseurState createState() => PageHomeConvertisseurState();
-}
-
-class PageHomeConvertisseurState extends State<PageHomeConvertisseur> {
+class PageHomeConvertisseur extends StatelessWidget {
   TextEditingController task = TextEditingController();
-  List<String> listTask = [];
+  final p = ProviderTest();
+  /* List<String> listTask = [];
 
   void addtask() {
     setState(() {
@@ -29,7 +30,7 @@ class PageHomeConvertisseurState extends State<PageHomeConvertisseur> {
     setState(() {
       listTask.removeAt(x);
     });
-  }
+  } */
 
   @override
   Widget build(BuildContext context) {
@@ -52,11 +53,12 @@ class PageHomeConvertisseurState extends State<PageHomeConvertisseur> {
             ),
             Expanded(
               child: ListView.builder(
-                itemCount: listTask.length,
+                itemCount: context.watch<ProviderTest>().getList.length,
                 itemBuilder: (context, i) {
                   return ListTile(
-                    title: Text(listTask[i]),
-                    onLongPress: () => deletefrom(i),
+                    title: Text(context.watch<ProviderTest>().getList[i]),
+                    onLongPress: () =>
+                        context.read<ProviderTest>().deletefrom(i),
                   );
                 },
               ),
@@ -65,7 +67,7 @@ class PageHomeConvertisseurState extends State<PageHomeConvertisseur> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: addtask,
+        onPressed: () => context.read<ProviderTest>().addtask(task.text),
         child: Icon(Icons.add),
         backgroundColor: Colors.green,
       ),
