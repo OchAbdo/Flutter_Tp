@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertp/Models/CardOb.dart';
 import 'package:fluttertp/Providerfilm.dart';
+import 'package:fluttertp/detail.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -12,7 +13,11 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: PageHome(), debugShowCheckedModeBanner: false);
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      initialRoute: '/',
+      routes: {'/': (context) => PageHome(), '/detail': (context) => Detail()},
+    );
   }
 }
 
@@ -33,8 +38,14 @@ class PageHome extends StatelessWidget {
               child: ListView.builder(
                 itemCount: context.watch<ProviderFilm>().getlist.length,
                 itemBuilder: (context, i) {
-                  return Formcard(
-                    movie: context.watch<ProviderFilm>().getlist[i],
+                  return GestureDetector(
+                    onTap: () {
+                      context.read<ProviderFilm>().setindex(i);
+                      Navigator.pushNamed(context, '/detail');
+                    },
+                    child: Formcard(
+                      movie: context.watch<ProviderFilm>().getlist[i],
+                    ),
                   );
                 },
               ),

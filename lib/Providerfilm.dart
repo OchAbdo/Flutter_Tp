@@ -7,6 +7,11 @@ class ProviderFilm extends ChangeNotifier {
     new CardOb(titre: "MiniCraft", url: "assets/mini.jpg"),
     new CardOb(titre: "Jordan Peele", url: "assets/jordanpeele.jpg"),
   ];
+  int index = 0;
+
+  void setindex(int x) {
+    index = x;
+  }
 
   List<CardOb> get getlist {
     return list;
