@@ -24,6 +24,12 @@ class MyApp extends StatelessWidget {
 class PageHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final provider = context.watch<ProviderFilm>();
+    Future.microtask(() {
+      if (!provider.isloading && provider.list.isEmpty)
+        context.read<ProviderFilm>().fetchFilm();
+    });
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Tp3"),
@@ -31,27 +37,29 @@ class PageHome extends StatelessWidget {
         titleTextStyle: TextStyle(color: Colors.white),
       ),
       body: Center(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Expanded(
-              child: ListView.builder(
-                itemCount: context.watch<ProviderFilm>().getlist.length,
-                itemBuilder: (context, i) {
-                  return GestureDetector(
-                    onTap: () {
-                      context.read<ProviderFilm>().setindex(i);
-                      Navigator.pushNamed(context, '/detail');
-                    },
-                    child: Formcard(
-                      movie: context.watch<ProviderFilm>().getlist[i],
+        child: provider.isloading
+            ? CircularProgressIndicator()
+            : Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: context.watch<ProviderFilm>().getlist.length,
+                      itemBuilder: (context, i) {
+                        return GestureDetector(
+                          onTap: () {
+                            context.read<ProviderFilm>().setindex(i);
+                            Navigator.pushNamed(context, '/detail');
+                          },
+                          child: Formcard(
+                            movie: context.watch<ProviderFilm>().getlist[i],
+                          ),
+                        );
+                      },
                     ),
-                  );
-                },
+                  ),
+                ],
               ),
-            ),
-          ],
-        ),
       ),
     );
   }
@@ -74,7 +82,7 @@ class Formcard extends StatelessWidget {
               child: Container(
                 height: 500,
                 width: double.infinity,
-                child: Image.asset(movie.url, fit: BoxFit.cover),
+                child: Image.network(movie.url, fit: BoxFit.cover),
               ),
             ),
             Padding(
