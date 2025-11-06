@@ -42,7 +42,7 @@ class Acceuil extends StatelessWidget {
                     builder: (BuildContext context) {
                       return GestureDetector(
                         onTap: () {
-                          // 👉 Lors du clic, on envoie l'objet car à la page DetailPage
+                          //
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -94,7 +94,7 @@ class Acceuil extends StatelessWidget {
                                 ),
                               ),
 
-                              // Détails du véhicule
+                              // Details du véhicule
                               Padding(
                                 padding: const EdgeInsets.all(5),
                                 child: Column(
